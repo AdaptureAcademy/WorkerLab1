@@ -62,7 +62,7 @@ To start developing:
 npm run dev
 ```
 
-This command will spin up a **local** server. Your worker will be available at `http://localhost:8787`, and code changes will automatically rebuild your project.
+This command will spin up a **local** server. Your worker will be available at `http://127.0.0.1:8787`, and code changes will automatically rebuild your project.
 
 ## 3. Write Code
 
