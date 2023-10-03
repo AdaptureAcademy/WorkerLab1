@@ -53,7 +53,14 @@ Follow the prompts to:
 - Decide whether to use TypeScript (select 'no' for a JS project).
 
 After project generation, navigate to the project directory. Your structure should include `wrangler.toml`, `index.js` (or `.ts` for TypeScript), `package.json`, and `package-lock.json`. The `node_modules` directory will be created which contains all the dependencies for your project. The required dependencies for the project are listed in `package.json`.
-## 2. Develop with Wrangler Command Line Interface (CLI)
+
+## 2. Install Wranlger Command Line Interface (CLI)
+- Use the following command in your bash/terminal to install wrangler on your device:
+```bash
+npm install -g @cloudflare/wrangler
+```
+
+## 3. Develop with Wrangler Command Line Interface (CLI)
 
 Wrangler is the official CLI for Cloudflare Workers, which C3 installs by default.
 
@@ -64,7 +71,7 @@ npm run dev
 
 This command will spin up a **local** server. Your worker will be available at `http://127.0.0.1:8787`, and code changes will automatically rebuild your project.
 
-## 3. Write Code
+## 4. Write Code
 
 The `src/index.js` file in your project contains your Worker's code. Here’s an example of a basic worker that returns "Hello World!":
 
@@ -78,7 +85,7 @@ export default {
 
 *Feel free to modify the code and observe changes in real time with `wrangler dev` running. You can also add additional routes to your Worker by adding more functions to the `export default` object or you can write a script that redirects users to another URL. You can even interact with external APIs (i.e. Cloudflare API) and databases here.*
 
-## 4. Deploy Your Project
+## 5. Deploy Your Project
 
 Deploy your Worker using Wrangler, either to a `*.workers.dev` subdomain or a custom domain.
 
