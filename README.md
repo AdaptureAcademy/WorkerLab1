@@ -57,7 +57,7 @@ After project generation, navigate to the project directory. Your structure shou
 ## 2. Install Wranlger Command Line Interface (CLI)
 - Use the following command in your bash/terminal to install wrangler on your device:
 ```bash
-npm install -g @cloudflare/wrangler
+npm install -g wrangler@latest
 ```
 
 ## 3. Develop with Wrangler Command Line Interface (CLI)
