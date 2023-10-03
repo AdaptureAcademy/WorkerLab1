@@ -1,103 +1,94 @@
-# Fauna-Cloudflare Worker
+# LAB: Getting Started with Cloudflare Workers
 
-I created a globally distributed, serverless REST API using Cloudflare Workers and Fauna as a data layer. In this venture, I utilized **Hono**, a web framework for Cloudflare Workers, and **Fauna**, a serverless cloud database, to manage an inventory of products.
+## Setting up your first Cloudflare Worker
 
-## Table of Contents
-- [Prerequisites](#prerequisites)
-- [My Setup and Installation Steps](#setup-and-installation)
-- [API Documentation - My Routes](#api-documentation)
-- [Deployment - My Way](#deployment)
-- [Testing - Checking Functionality](#testing)
-- [Conclusion - Wrapping It Up](#conclusion)
+This guide will instruct you through setting up and deploying your first Worker on Cloudflare, providing a smooth pathway from creation to deployment.
 
+*NOTE: The repo contains a "Hello World" worker project that you can clone. Alternatively, you can follow this guide to setup `npm` and `wrangler` to create a new project on your own.*
+
+---
+## What is a Cloudflare Worker?
+
+Cloudflare Workers allow you to write serverless functions that can:
+- Serve static pages or assets
+- Act as a REST API or proxy
+- Manipulate HTTP requests and responses
+- And much more, all happening closer to the end user by leveraging Cloudflare's global network.
+- Redirect requests and users to other URLs
+
+Cloudflare workers are written in JavaScript, and can be written in TypeScript as well. They are versatile when it comes to use cases, and can be used to serve static pages, act as a REST API, or even manipulate HTTP requests and responses. They are also extremely fast, as they are executed on Cloudflare's global network, which is closer to the end user.
+
+---
+## Get Started in the Dashboard
+
+If you prefer using a UI:
+1. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com/) and select your account.
+2. Navigate to **Workers & Pages > Create application**.
+3. Select **Create Worker > Deploy**.
+
+---
 ## Prerequisites
-- A Cloudflare Workers account
-- Local installation of Node.js and NPM
-- A Fauna account
-- A fundamental understanding of TypeScript
 
-## My Setup and Installation Steps
-In this section, I adhered to the steps and guidelines from the "Cloudflare Workers Fauna REST API Tutorial" and integrated the provided code into it.
-
-### FaunaDB Setup
-1. **Creating My Database**: I followed the [tutorial](https://developers.cloudflare.com/workers/tutorials/store-data-with-fauna/) steps to set up my FaunaDB, which involved the creation of the "Products" collection and obtaining my server secret key.
-
-### Cloudflare Worker Setup
-1. **Creating a New Worker Project**: I initialized a new project with my desired settings:
-   ```bash
-   npm create cloudflare@latest
-   ```
-2. **Installing Dependencies**: I ensured to install the Fauna JavaScript driver and other necessary libraries:
-   ```bash
-   npm install fauna
-   ```
-3. **Configuring Secrets**: I set up `FAUNA_SECRET` as described in the tutorial, making sure it's available for development (`.dev.vars`) and during runtime (via Wrangler secrets).
-
-### Code Implementation
-I replaced the `src/index.ts` file in my Worker project directory with the provided code snippet to embed the inventory management logic.
-
-## API Documentation - My Routes
-I designed the REST API to offer several endpoints to interact with the product inventory:
-
-### 1. `GET /`
-A friendly route that returns a simple welcome message.
-
-### 2. `POST /products`
-**Payload**:
-```json
-{
-  "serialNumber": "STRING",
-  "title": "STRING",
-  "weightLbs": "NUMBER"
-}
-```
-**Description**: I used this to create a new product, specifying its serial number, title, and weight. The quantity is set to default at 0.
-
-### 3. `GET /products/:id`
-**Description**: This fetches the details of a product using its ID.
-
-### 4. `DELETE /products/:id`
-**Description**: Here, I can delete a product using its ID.
-
-### 5. `PATCH /products/:productId/add-quantity`
-**Payload**:
-```json
-{
-  "quantity": "NUMBER"
-}
-```
-**Description**: It allows me to add to the product’s quantity using its `productId`.
-
-## Deployment - My Way
-I ensured my Worker was primed for deployment by sticking to the following steps:
-
-1. **Testing Locally**:
-   I tested the Worker on my local machine using:
-   ```bash
-   npm run dev
-   ```
-2. **Deploying**:
-   I deployed the Worker to Cloudflare:
-   ```bash
-   npm run deploy
-   ```
-   I verified that the app is live and responding to requests as expected.
-
-## Testing - Checking Functionality
-The Worker was deployed and ready to go. I tested the API endpoints to ensure that they were working as expected. It's live on the following link:
+Before getting hands-on, ensure you have:
+- A [Cloudflare account](https://dash.cloudflare.com/sign-up).
+- [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/get-npm) installed.
+- To install Node.js through NVM, you can use the following command in your terminal/bash:
 ```bash
-https://fauna-workers.abdullah-baig416.workers.dev
+curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash && source ~/.bashrc   && nvm install 18.16.0 && nvm use 18.16.0
 ```
+*Ensure you're using Node.js version 16.13.0 or later for compatibility with Wrangler.*
 
-I utilized `curl` commands and Postman to validate the API functionality. Here's an example `curl` command to create a new product:
+---
+## 1. Create a New Worker Project with C3 (create-cloudflare-cli)
+
+After installing NPM, you can use C3 tool to help setup your project. C3 assists in rapidly setting up and deploying Workers to Cloudflare.
+
 ```bash
-curl -X POST -H "Content-Type: application/json" -d '{"serialNumber":"A123","title":"Product 1","weightLbs":1.5}' https://fauna-workers.abdullah-baig416.workers.dev/products
+npm create cloudflare@latest
 ```
 
-The newly created record above can be fetched using the following `curl` command:
+Follow the prompts to:
+- Name your Worker directory and choose where to create your application.
+- Opt for the "Hello World" script for a basic Worker setup.
+- Decide whether to use TypeScript (select 'no' for a JS project).
+
+After project generation, navigate to the project directory. Your structure should include `wrangler.toml`, `index.js` (or `.ts` for TypeScript), `package.json`, and `package-lock.json`. The `node_modules` directory will be created which contains all the dependencies for your project. The required dependencies for the project are listed in `package.json`.
+## 2. Develop with Wrangler Command Line Interface (CLI)
+
+Wrangler is the official CLI for Cloudflare Workers, which C3 installs by default.
+
+To start developing:
 ```bash
-curl https://fauna-workers.abdullah-baig416.workers.dev/products/<id of the record>
+npm run dev
 ```
 
-## Conclusion - Wrapping It Up
-I have successfully built a serverless REST API using Cloudflare Workers and FaunaDB.
+This command will spin up a **local** server. Your worker will be available at `http://localhost:8787`, and code changes will automatically rebuild your project.
+
+## 3. Write Code
+
+The `src/index.js` file in your project contains your Worker's code. Here’s an example of a basic worker that returns "Hello World!":
+
+```javascript
+export default {
+	async fetch(request, env, ctx) {
+		return new Response('Hello World!');
+	},
+};
+```
+
+*Feel free to modify the code and observe changes in real time with `wrangler dev` running. You can also add additional routes to your Worker by adding more functions to the `export default` object or you can write a script that redirects users to another URL. You can even interact with external APIs (i.e. Cloudflare API) and databases here.*
+
+## 4. Deploy Your Project
+
+Deploy your Worker using Wrangler, either to a `*.workers.dev` subdomain or a custom domain.
+
+```bash
+npm run deploy
+```
+
+If using Wrangler for the first time, it will open a browser for authentication. Your Worker will be live at `<YOUR_WORKER>.<YOUR_SUBDOMAIN>.workers.dev`.
+
+---
+## Conclusion
+
+Congratulations on setting up and deploying a Cloudflare Worker! From here, you can explore further, modify your worker to serve specific content, act as an API, and much more. Ensure to explore more [examples](https://developers.cloudflare.com/workers/examples) and dive deeper into advanced topics.
