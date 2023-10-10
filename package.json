@@ -1,9 +1,14 @@
 {
+<<<<<<< HEAD
   "name": "test-adapture",
+=======
+  "name": "tiny-night-342f",
+>>>>>>> workerlab1/Carles
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "deploy": "wrangler deploy",
+<<<<<<< HEAD
     "dev": "wrangler dev",
     "start": "wrangler dev"
   },
@@ -11,3 +16,8 @@
     "wrangler": "^3.0.0"
   }
 }
+=======
+    "dev": "wrangler dev"
+  }
+}
+>>>>>>> workerlab1/Carles

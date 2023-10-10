@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Logs
 
 logs
@@ -170,3 +171,7 @@ dist
 
 .dev.vars
 .wrangler/
+=======
+/node_modules
+.idea
+>>>>>>> workerlab1/Carles
