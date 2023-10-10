@@ -10,6 +10,12 @@
 
 export default {
 	async fetch(request, env, ctx) {
+		// Print arguments to console
+		console.log('Argumentos recibidos:');
+		console.log('request:', request);
+		console.log('env:', env);
+		console.log('ctx:', ctx);
+
 		return new Response('Hello World!');
 	},
 };
